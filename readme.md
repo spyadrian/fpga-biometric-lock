@@ -12,12 +12,7 @@ Un capteur de proximité est utilisé pour détecter l'approche d'un utilisateur
 Une caméra est intégrée au système pour capturer des images faciales. L'algorithme de reconnaissance faciale LBPH est implémenté en VHDL pour analyser les images et identifier les visages autorisés.
 
 ### Interfaces de Sortie : 
-Deux options d'interface de sortie sont envisagées :
-
-#### LED de Déverrouillage : 
-Une LED indique le statut de déverrouillage, s'allumant en vert pour indiquer l'accès autorisé.
-#### Moteur de Déverrouillage : 
-Un moteur est activé pour déverrouiller physiquement quelque chose, comme une serrure mécanique.
+Un verrou utilisant un électro-aimant est activé pour déverrouiller physiquement une serrure.
 
 ### Interface Personnalisée : 
 Une interface personnalisée en VHDL est conçue pour faciliter la communication entre le FPGA et les périphériques spécifiques au projet, tels que le capteur de proximité et la caméra.
@@ -42,3 +37,10 @@ Datasheet : https://www.voti.nl/docs/OV7670.pdf
 
 Tutoriel FPGA : https://www.fpga4student.com/2018/08/basys-3-fpga-ov7670-camera.html
 
+### Verrou à solénoïde
+
+Référence : https://www.sparkfun.com/solenoid-12v-latch-lock.html
+
+Mouser No : 474-ROB-15324
+
+Pmod HB3 : https://digilent.com/reference/pmod/pmodhb3/start
