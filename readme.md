@@ -33,6 +33,12 @@ Lorsqu'un utilisateur s'approche du capteur de proximité, celui-ci déclenche u
 - FPGA sur la carte Nexys Video
 - Processeur soft-core Microblaze
 - Capteur de proximité
-- Caméra pour la capture d'images faciales
 - LED(s) et moteur pour les sorties de déverrouillage
 - Langages et Outils : VHDL pour la programmation des interfaces et des algorithmes, Xilinx Vivado pour la conception et la synthèse du FPGA.
+
+### Caméra pour la capture d'images faciales (OV7670)
+
+Datasheet : https://www.voti.nl/docs/OV7670.pdf
+
+Tutoriel FPGA : https://www.fpga4student.com/2018/08/basys-3-fpga-ov7670-camera.html
+
