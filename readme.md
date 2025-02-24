@@ -23,6 +23,9 @@ Une interface est configurée pour fonctionner par interruption, permettant au s
 ## Fonctionnement : 
 Lorsqu'un utilisateur s'approche du capteur de proximité, celui-ci déclenche une interruption sur le FPGA. La caméra capture alors une image faciale, que l'algorithme LBPH analyse pour reconnaître l'utilisateur. Si l'utilisateur est autorisé, la LED de déverrouillage s'allume en vert et/ou le moteur de déverrouillage est activé, permettant ainsi l'accès au système sécurisé.
 
+## Schéma global
+![alt text](img\fpga_biometric_lock_schema_global.drawio.png "Schéma")
+
 ## Matériel Utilisé :
 
 - FPGA sur la carte Nexys Video
