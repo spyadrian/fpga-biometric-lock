@@ -1,2 +1,9 @@
 # report
 report/report.pdf
+
+# --- circuits ---
+circuits/fpga-biometric-lock
+circuits/.Xil
+circuits/*.jou
+circuits/*.log
+circuits/*.str
