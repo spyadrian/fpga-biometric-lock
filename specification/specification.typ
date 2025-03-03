@@ -82,7 +82,12 @@ Elle communique via une interface parallèle 8 bits et utilise I2C pour la confi
 
 === Capteur de proximité
 
-// ...
+Le VCNL4040 est un capteur de proximité à interface I²C, parfaitement adapté pour détecter la présence d’un utilisateur et générer une interruption vers le MicroBlaze.
+Intégré à notre projet, il permettra de réveiller le système de reconnaissance faciale dès qu’une personne s’approche.
+
+- #link("https://www.vishay.com/docs/84274/vcnl4040.pdf", "Datasheet")
+- #link("https://www.mouser.ch/ProductDetail/Adafruit/4161?qs=d0WKAl%252BL4KYSXIse1Xv7Uw%3D%3D", "Mouser")
+- #link("https://www.adafruit.com/product/4161", "Adafruit guide")
 
 === Verrou à solénoïde - ROB-15324
 
