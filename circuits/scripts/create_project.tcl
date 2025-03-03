@@ -10,10 +10,10 @@
 # Company: HEPIA // HES-SO
 # Author: Spycher Adrian based on Laurent Gantel <laurent.gantel@hesge.ch>
 #
-# Project Name: fpga-dna-strand-clustering
+# Project Name: fpga-biometric-lock
 # Target Device: digilentinc.com:nexys_video:part0:1.2 xc7a200tsbg484-1
 # Tool version: 2024.1
-# Description: TCL script for re-creating Vivado project 'tb_files_uart'
+# Description: TCL script for re-creating Vivado project 'fpga-biometric-lock'
 #
 # Last update: 2025-02-20
 #
