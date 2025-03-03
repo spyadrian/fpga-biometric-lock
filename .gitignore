@@ -1,5 +1,8 @@
-# report
+# --- report ---
 report/report.pdf
+
+# --- specification ---
+specification/specification.pdf
 
 # --- circuits ---
 circuits/fpga-biometric-lock
