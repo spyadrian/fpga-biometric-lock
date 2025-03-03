@@ -11,12 +11,10 @@
 
 #outline(title: "Table des matières")
 
-// #outline(title: "Liste des figures", target: figure.where(kind: image))
+#outline(title: "Liste des figures", target: figure.where(kind: image))
 
-// #outline(title: "Liste des tableaux", target: figure.where(kind: table))
+#outline(title: "Liste des tableaux", target: figure.where(kind: table))
 
 #show: apply_chapter_style
 
-// #include "chapter/01_introduction.typ"
-
-#include "chapter/02_specification.typ"
+#include "chapter/01_introduction.typ"
