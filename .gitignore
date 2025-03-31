@@ -10,3 +10,8 @@ circuits/.Xil
 circuits/*.jou
 circuits/*.log
 circuits/*.str
+
+# --- programs ---
+programs/*.o
+programs/euclidean_distance
+programs/transform
