@@ -17,8 +17,8 @@ package lbph_pkg is
     constant GRID_LEN_X : integer := 8;
     constant GRID_LEN_Y : integer := 8; 
 
-    constant GRID_WIDTH  : integer := 60;-- IMG_WIDTH / GRID_LEN_X;
-    constant GRID_HEIGHT : integer := 80;-- IMG_HEIGHT / GRID_LEN_Y;
+    constant GRID_WIDTH  : integer := 60; -- IMG_WIDTH / GRID_LEN_X;
+    constant GRID_HEIGHT : integer := 80; -- IMG_HEIGHT / GRID_LEN_Y;
 
     constant PXL_SIZE : integer := 8;
     constant LBP_BINS : integer := 256;     -- number of colors
@@ -33,7 +33,8 @@ package lbph_pkg is
     type image_t is array (0 to IMG_HEIGHT - 1, 0 to IMG_WIDTH - 1) of pixel_t;
 
     subtype lbp_value_t is unsigned(PXL_SIZE - 1 downto 0);
-    type lbp_image_t is array (0 to IMG_HEIGHT - 1, 0 to IMG_WIDTH - 1) of lbp_value_t;
+    type lbp_line_t is array(0 to IMG_WIDTH - 1) of lbp_value_t;
+    type lbp_image_t is array (0 to IMG_HEIGHT - 1) of lbp_line_t;
 
     subtype hist_bin_t is unsigned(15 downto 0);            -- 16-bit
     type histogram_t is array (0 to LBP_BINS - 1) of hist_bin_t;
@@ -51,7 +52,6 @@ package lbph_pkg is
     -- Functions
     ---------------------------------------------------------------------------------
 
-    function compute_lbp_value(image : image_t; x, y : integer) return lbp_value_t;
     function squared_diff(bin1, bin2 : hist_bin_t) return distance_t;
     
     function get_grid_x(x : integer) return integer;
@@ -72,27 +72,6 @@ package body lbph_pkg is
     ---------------------------------------------------------------------------------
     -- Functions
     ---------------------------------------------------------------------------------
-    
-    function compute_lbp_value(image : image_t; x, y : integer) return lbp_value_t is
-    
-        variable lbp_value : lbp_value_t := (others => '0');
-        variable center    : pixel_t;
-    begin
-        
-        center := image(y, x);
-    
-        lbp_value(7) := '1' when image(y - 1, x - 1) >= center else '0';
-        lbp_value(6) := '1' when image(y - 1, x    ) >= center else '0';
-        lbp_value(5) := '1' when image(y - 1, x + 1) >= center else '0';
-        lbp_value(4) := '1' when image(y    , x + 1) >= center else '0';
-        lbp_value(3) := '1' when image(y + 1, x + 1) >= center else '0';
-        lbp_value(2) := '1' when image(y + 1, x    ) >= center else '0';
-        lbp_value(1) := '1' when image(y + 1, x - 1) >= center else '0';
-        lbp_value(0) := '1' when image(y    , x - 1) >= center else '0';
-    
-        return lbp_value;
-    end function;
-
 
     function squared_diff(bin1, bin2 : hist_bin_t) return distance_t is
     
