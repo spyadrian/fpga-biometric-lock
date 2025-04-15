@@ -7,17 +7,17 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_textio.all;
 
 
-entity lbph_pixel is
+entity lbph_pixel_encoder is
 
     port (
         p0_i, p1_i, p2_i, p3_i, p4_i, p5_i, p6_i, p7_i, p8_i : in pixel_t;
         lbp_o                                                : out lbp_value_t
     );
 
-end lbph_pixel;
+end lbph_pixel_encoder;
 
 
-architecture Behavioral of lbph_pixel is
+architecture Behavioral of lbph_pixel_encoder is
 
     -- none
     

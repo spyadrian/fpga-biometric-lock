@@ -11,19 +11,22 @@ package lbph_pkg is
     -- Constants
     ---------------------------------------------------------------------------------
 
-    constant IMG_HEIGHT : integer := 640;
-    constant IMG_WIDTH  : integer := 480;
+    constant IMG_HEIGHT      : integer := 640;
+    constant IMG_WIDTH       : integer := 480;
+    constant LBP_IMG_HEIGHT  : integer := IMG_HEIGHT - 2;   -- without border
+    constant LBP_IMG_WIDTH   : integer := IMG_WIDTH - 2;    -- without border
 
-    constant GRID_LEN_X : integer := 8;
-    constant GRID_LEN_Y : integer := 8; 
+    constant GRID_LEN_X      : integer := 8;
+    constant GRID_LEN_Y      : integer := 8; 
 
-    constant GRID_WIDTH  : integer := 60; -- IMG_WIDTH / GRID_LEN_X;
-    constant GRID_HEIGHT : integer := 80; -- IMG_HEIGHT / GRID_LEN_Y;
+    constant GRID_WIDTH      : integer := 60;               -- round(LBP_IMG_WIDTH / GRID_LEN_X);
+    constant GRID_HEIGHT     : integer := 80;               -- round(LBP_IMG_HEIGHT / GRID_LEN_Y);
 
-    constant PXL_SIZE : integer := 8;
-    constant LBP_BINS : integer := 256;     -- number of colors
+    constant PXL_SIZE        : integer := 8;
+    constant LBP_BINS        : integer := 256;              -- number of colors
 
-    constant MATCH_THRESHOLD : integer := 50; -- random value for the moment
+    constant MATCH_THRESHOLD : integer := 50;               -- random value for the moment
+
 
     ---------------------------------------------------------------------------------
     -- Types
@@ -33,14 +36,14 @@ package lbph_pkg is
     type image_t is array (0 to IMG_HEIGHT - 1, 0 to IMG_WIDTH - 1) of pixel_t;
 
     subtype lbp_value_t is unsigned(PXL_SIZE - 1 downto 0);
-    type lbp_line_t is array(0 to IMG_WIDTH - 1) of lbp_value_t;
-    type lbp_image_t is array (0 to IMG_HEIGHT - 1) of lbp_line_t;
+    -- type lbp_image_t is array (0 to IMG_HEIGHT - 1 - 2, 0 to IMG_WIDTH - 1 - 2) of lbp_value_t;
 
-    subtype hist_bin_t is unsigned(15 downto 0);            -- 16-bit
-    type histogram_t is array (0 to LBP_BINS - 1) of hist_bin_t;
-    type grid_histogram_t is array (0 to GRID_LEN_Y - 1, 0 to GRID_LEN_X - 1) of histogram_t;
+    subtype bin_t is unsigned(12 downto 0);                                             -- 13-bit (8'192 > 4800 -> max value of a bin)
+    type hist_t is array (0 to LBP_BINS - 1) of bin_t;
+    type concat_hist_t is array (0 to GRID_LEN_Y - 1, 0 to GRID_LEN_X - 1) of hist_t;
+    
+    subtype distance_t is unsigned(39 downto 0);                                        -- 40-bit (max of the sum)
 
-    subtype distance_t is unsigned(39 downto 0);            -- 40-bit (max of the sum)
 
     ---------------------------------------------------------------------------------
     -- Components
@@ -48,14 +51,16 @@ package lbph_pkg is
 
     -- ...
 
+
     ---------------------------------------------------------------------------------
     -- Functions
     ---------------------------------------------------------------------------------
 
-    function squared_diff(bin1, bin2 : hist_bin_t) return distance_t;
+    function squared_diff(bin1, bin2 : bin_t) return distance_t;
     
     function get_grid_x(x : integer) return integer;
     function get_grid_y(y : integer) return integer;
+
 
     ---------------------------------------------------------------------------------
     -- Procedures
@@ -70,10 +75,10 @@ end lbph_pkg;
 package body lbph_pkg is
 
     ---------------------------------------------------------------------------------
-    -- Functions
+    -- FUNCTIONS
     ---------------------------------------------------------------------------------
 
-    function squared_diff(bin1, bin2 : hist_bin_t) return distance_t is
+    function squared_diff(bin1, bin2 : bin_t) return distance_t is
     
         variable diff     : signed(16 downto 0);
         variable square   : signed(39 downto 0);
@@ -135,11 +140,5 @@ package body lbph_pkg is
         
     end function;
 
-    ---------------------------------------------------------------------------------
-    -- Procedures
-    ---------------------------------------------------------------------------------
-
-    -- ...
 
 end package body;
-

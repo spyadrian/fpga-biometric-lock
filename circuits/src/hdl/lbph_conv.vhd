@@ -10,15 +10,15 @@ use ieee.std_logic_textio.all;
 entity lbph_conv is
 
     port (
-        clk_i   : in std_logic;
-        rst_i   : in std_logic;
+        clk_i     : in std_logic;
+        rst_i     : in std_logic;
         
-        px_i    : in pixel_t;
-        start_i : in std_logic;
+        px_i      : in pixel_t;
+        start_i   : in std_logic;
         
-        px_o    : out pixel_t;
-        last_o  : out std_logic;
-        valid_o : out std_logic
+        lbp_val_o : out lbp_value_t;
+        last_o    : out std_logic;
+        valid_o   : out std_logic
     );
 
 end lbph_conv;
@@ -47,7 +47,7 @@ architecture Behavioral of lbph_conv is
       
     end component;
     
-    component lbph_pixel
+    component lbph_pixel_encoder
         
         port (
             p0_i, p1_i, p2_i, p3_i, p4_i, p5_i, p6_i, p7_i, p8_i : in pixel_t;
@@ -111,7 +111,7 @@ begin
             prog_full => f2_prog_full_to_rd_en
         );
         
-    lbp : lbph_pixel
+    lbp : lbph_pixel_encoder
         port map (
             p0_i  => p0,
             p1_i  => p1,
@@ -211,7 +211,7 @@ begin
                     -- count --
                     count <= count + 1;
                     
-                    if count > IMG_WIDTH then 
+                    if count > IMG_WIDTH then       -- skip first pixel (FIFO not fill yet)
                         if x = IMG_WIDTH - 1 then
                         
                             x <= 0;
@@ -240,10 +240,10 @@ begin
     in_border <= '1' when x = 0 or y = 0 or x = IMG_WIDTH - 1 or y = IMG_HEIGHT - 1 else '0';
     mx_filled <= '1' when count > (2 * IMG_WIDTH + 1) else '0';
     
-    last    <= '1' when y = IMG_HEIGHT - 3 and x = IMG_WIDTH - 2 else '0';
-    last_o  <= last;
-    valid_o <= '1' when in_border = '0' and mx_filled = '1' else '0';
-    px_o    <= p0  when in_border = '0' and mx_filled = '1' else (others => '0');
+    last      <= '1' when y = IMG_HEIGHT - 3 and x = IMG_WIDTH - 2 else '0';
+    last_o    <= last;
+    valid_o   <= '1' when in_border = '0' and mx_filled = '1' else '0';
+    lbp_val_o <= unsigned(p0) when in_border = '0' and mx_filled = '1' else (others => '0');
 
 
 end Behavioral;

@@ -30,17 +30,17 @@ architecture tb of tb_lbph_conv is
     component lbph_conv is
 
         port (
-            clk_i   : in std_logic;
-            rst_i   : in std_logic;
+            clk_i     : in std_logic;
+            rst_i     : in std_logic;
             
-            px_i    : in pixel_t;
-            start_i : in std_logic;
+            px_i      : in pixel_t;
+            start_i   : in std_logic;
             
-            px_o    : out pixel_t;
-            last_o  : out std_logic;
-            valid_o : out std_logic
+            lbp_val_o : out lbp_value_t;
+            last_o    : out std_logic;
+            valid_o   : out std_logic
         );
-    
+
     end component lbph_conv;
 
 
@@ -48,27 +48,27 @@ architecture tb of tb_lbph_conv is
     -- Signals
     ---------------------------------------------------------------------------------
 
-    signal clk    : std_logic := '1';
-    signal rst    : std_logic := '1';
-    signal start  : std_logic := '0';
-    signal px     : pixel_t   := (others => '1');
+    signal clk         : std_logic := '1';
+    signal rst         : std_logic := '1';
+    signal start       : std_logic := '0';
+    signal px          : pixel_t   := (others => '1');
     
-    signal px_out : pixel_t;
-    signal last   : std_logic;
-    signal valid  : std_logic;
+    signal lbp_val_out : lbp_value_t;
+    signal last        : std_logic;
+    signal valid       : std_logic;
 
 begin
 
     -- Instantiate the Unit Under Test (UUT) --
     uut: lbph_conv
         port map (
-            clk_i   => clk,
-            rst_i   => rst,
-            px_i    => px,
-            start_i => start,
-            px_o    => px_out,
-            last_o  => last,
-            valid_o => valid
+            clk_i     => clk,
+            rst_i     => rst,
+            px_i      => px,
+            start_i   => start,
+            lbp_val_o => lbp_val_out,
+            last_o    => last,
+            valid_o   => valid
         );
 
     -- clk generation --
@@ -98,7 +98,7 @@ begin
                     end if;
 
                     if valid = '1' then
-                        assert px_out /= "00011000" or px_out /= "11111111"
+                        assert lbp_val_out /= "00011000" or lbp_val_out /= "11111111"
                         report "mismatch at (" & integer'image(x) & ", " & integer'image(y) & ")" severity error;
                     end if;
                     
