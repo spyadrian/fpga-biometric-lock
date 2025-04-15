@@ -65,16 +65,17 @@ set constr_src_dir "${src_dir}/constraints"
 set vhdl_src_file_list [findFiles $hdl_src_dir *.vhd]
 
 if {$vhdl_src_file_list != ""} {
-add_files -norecurse $vhdl_src_file_list
+    add_files -norecurse $vhdl_src_file_list
 } else {
-print_status "No sources to be added" "WARNING"
+    print_status "No sources to be added" "WARNING"
 }
 
 # Set VHDL version (VHDL, VHDL 2008, or VHDL 2019)
 foreach j $vhdl_src_file_list {
-set_property file_type {VHDL 2008} [get_files $j]
-print_status "VHDL mode 2008 configured for the file $j" "OK"
+    set_property file_type {VHDL 2008} [get_files $j]
+    print_status "VHDL mode 2008 configured for the file $j" "OK"
 }
+
 print_status "Add project sources" "OK"
 
 #----------------------------------------------------------------
@@ -92,17 +93,35 @@ update_compile_order -fileset sources_1
 set vhdl_sim_file_list [findFiles $sim_src_dir *.vhd]
 
 if {$vhdl_sim_file_list != ""} {
-add_files -fileset sim_1 -norecurse $vhdl_sim_file_list
-update_compile_order -fileset sim_1
+    add_files -fileset sim_1 -norecurse $vhdl_sim_file_list
+    update_compile_order -fileset sim_1
 } else {
-print_status "No simulation sources to be added" "WARNING"
+    print_status "No simulation sources to be added" "WARNING"
 }
 
 foreach j $vhdl_sim_file_list {
-set_property file_type {VHDL 2008} [get_files $j]
-print_status "VHDL mode 2008 configured for the file $j" "OK"
+    set_property file_type {VHDL 2008} [get_files $j]
+    print_status "VHDL mode 2008 configured for the file $j" "OK"
 }
+
 print_status "Add simulation sources" "OK"
+
+#----------------------------------------------------------------
+# Add file to library
+#----------------------------------------------------------------
+
+set vhdl_hdl_lbph_file_list [findFiles $hdl_src_dir lbph_*.vhd]
+set vhdl_sim_lbph_file_list [findFiles $sim_src_dir tb_lbph_*.vhd]
+
+foreach j $vhdl_hdl_lbph_file_list {
+    set_property library lbph [get_files $j]
+}
+
+foreach j $vhdl_sim_lbph_file_list {
+    set_property library lbph [get_files $j]
+}
+
+print_status "Add file to library" "OK"
 
 #----------------------------------------------------------------
 # Set the top level simulation file
@@ -110,6 +129,22 @@ print_status "Add simulation sources" "OK"
 
 set_property top tb_top [get_filesets sim_1]
 update_compile_order -fileset sim_1
+
+#----------------------------------------------------------------
+# Add IP cores
+#----------------------------------------------------------------
+
+set ip_src_dir "${src_dir}/ip"
+set ip_file_list [findFiles $ip_src_dir *.xci]
+
+if {$ip_file_list != ""} {
+    add_files -norecurse $ip_file_list
+    generate_target all [get_files -of_objects [get_filesets sources_1] -filter {FILE_TYPE == "IP"}]
+    set_property generate_synth_checkpoint true [get_files $ip_file_list]
+    print_status "Added IP files and generated targets" "OK"
+} else {
+    print_status "No IP files to be added" "WARNING"
+}
 
 #----------------------------------------------------------------
 # Add constraint files
