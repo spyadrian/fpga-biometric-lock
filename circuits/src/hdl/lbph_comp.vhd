@@ -7,24 +7,24 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_textio.all;
 
 
-entity euclidean_distance is
+entity lbph_comp is
 
     port (
         clk_i    : in  std_logic;
         rst_i    : in  std_logic;
 
         start_i  : in  std_logic;
-        hist1_i  : in  histogram_t;
-        hist2_i  : in  histogram_t;
+        hist1_i  : in  hist_t;
+        hist2_i  : in  hist_t;
 
         done_o   : out std_logic;
         result_o : out distance_t
     );
 
-end euclidean_distance;
+end lbph_comp;
 
 
-architecture Behavioral of euclidean_distance is
+architecture Behavioral of lbph_comp is
 
     ---------------------------------------------------------------------------------
     -- Types

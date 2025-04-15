@@ -11,10 +11,10 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_textio.all;
 
 
-entity tb_euclidean_distance is
+entity tb_lbph_comp is
 end entity;
 
-architecture tb of tb_euclidean_distance is
+architecture tb of tb_lbph_comp is
 
     ---------------------------------------------------------------------------------
     -- Constants
@@ -26,21 +26,21 @@ architecture tb of tb_euclidean_distance is
     -- Components
     ---------------------------------------------------------------------------------
 
-    component euclidean_distance is
+    component lbph_comp is
 
         port (
             clk_i    : in  std_logic;
             rst_i    : in  std_logic;
     
             start_i  : in  std_logic;
-            hist1_i  : in  histogram_t;
-            hist2_i  : in  histogram_t;
+            hist1_i  : in  hist_t;
+            hist2_i  : in  hist_t;
     
             done_o   : out std_logic;
             result_o : out distance_t
         );
     
-    end component euclidean_distance;
+    end component lbph_comp;
 
     ---------------------------------------------------------------------------------
     -- Signals
@@ -49,15 +49,15 @@ architecture tb of tb_euclidean_distance is
     signal clk      : std_logic := '1';
     signal rst      : std_logic := '1';
     signal start    : std_logic := '0';
-    signal hist1    : histogram_t := (others => (others => '0'));
-    signal hist2    : histogram_t := (others => (others => '0'));
+    signal hist1    : hist_t := (others => (others => '0'));
+    signal hist2    : hist_t := (others => (others => '0'));
     signal done     : std_logic;
     signal result   : distance_t;
 
 begin
 
    -- Instantiate the Unit Under Test (UUT) --
-    uut: euclidean_distance
+    uut: lbph_comp
         port map (
             clk_i    => clk,
             rst_i    => rst,
