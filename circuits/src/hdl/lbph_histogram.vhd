@@ -37,9 +37,6 @@ architecture Behavioral of lbph_histogram is
     signal current_state, next_state : state_t := IDLE;
 
     signal x, y         : integer range 1 to IMG_WIDTH - 2 := 1;
-    signal gx, gy       : integer range 0 to GRID_LEN_X - 1 := 0;
-    signal bin          : integer range 0 to LBP_BINS - 1 := 0;
-
     signal hist         : concat_hist_t := (others => (others => (others => (others => '0'))));
     signal done_reg     : std_logic := '0';
 
@@ -105,13 +102,7 @@ begin
                 when RUNNING =>
                 
                     if valid_i = '1' then
-                    
---                        gx <= get_grid_x(x);
---                        gy <= get_grid_y(y);
---                        bin <= to_integer(lbp_val_i);
 
---                        hist(get_grid_y(y), get_grid_x(x))(to_integer(lbp_val_i)) 
---                            <= hist(get_grid_y(y), get_grid_x(x))(to_integer(lbp_val_i)) + 1;
                         gx_v := get_grid_x(x);
                         gy_v := get_grid_y(y);
                         bin_v := to_integer(lbp_val_i);
