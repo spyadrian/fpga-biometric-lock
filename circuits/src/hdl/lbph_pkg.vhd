@@ -13,8 +13,6 @@ package lbph_pkg is
 
     constant IMG_HEIGHT      : integer := 640;
     constant IMG_WIDTH       : integer := 480;
-    constant LBP_IMG_HEIGHT  : integer := IMG_HEIGHT - 2;   -- without border
-    constant LBP_IMG_WIDTH   : integer := IMG_WIDTH - 2;    -- without border
 
     constant GRID_LEN_X      : integer := 8;
     constant GRID_LEN_Y      : integer := 8; 

@@ -89,8 +89,8 @@ begin
         wait for CLK_PERIOD;
         start <= '0';
 
-        img_loop: for y in 0 to LBP_IMG_HEIGHT + 10 loop -- to stop when flag done is 1
-            row_loop: for x in 0 to LBP_IMG_WIDTH - 1 loop
+        img_loop: for y in 0 to IMG_HEIGHT + 10 loop -- to stop when flag done is 1
+            row_loop: for x in 0 to IMG_WIDTH - 2 - 1 loop
 
                 if done = '1' then
                     valid <= '0';
@@ -109,13 +109,13 @@ begin
         end loop;  
               
         -- print
-        report "done : " & std_logic'image(done);
-        report "hist(0,0)(0)   : " & integer'image(to_integer(hist(0,0)(0)));
-        report "hist(0,0)(255) : " & integer'image(to_integer(hist(0,0)(255)));
-        report "hist(1,1)(0)   : " & integer'image(to_integer(hist(1,1)(0)));
-        report "hist(1,1)(255) : " & integer'image(to_integer(hist(1,1)(255)));
-        report "hist(7,7)(0)   : " & integer'image(to_integer(hist(7,7)(0)));
-        report "hist(7,7)(255) : " & integer'image(to_integer(hist(7,7)(255)));
+--        report "done : " & std_logic'image(done);
+--        report "hist(0,0)(0)   : " & integer'image(to_integer(hist(0,0)(0)));
+--        report "hist(0,0)(255) : " & integer'image(to_integer(hist(0,0)(255)));
+--        report "hist(1,1)(0)   : " & integer'image(to_integer(hist(1,1)(0)));
+--        report "hist(1,1)(255) : " & integer'image(to_integer(hist(1,1)(255)));
+--        report "hist(7,7)(0)   : " & integer'image(to_integer(hist(7,7)(0)));
+--        report "hist(7,7)(255) : " & integer'image(to_integer(hist(7,7)(255)));
 
         -- assert
         assert hist(0,0)(0) = 2301 and  hist(0,0)(255) = 2360
@@ -124,7 +124,7 @@ begin
         assert hist(1,1)(0) = 2400 and hist(1,1)(255) = 2400
         report "mismatch at for hist(1,1)" severity error;
 
-        assert hist(7,7)(0) = 2360 and hist(7,7)(255) = 2301            -- /!\ it missmatch : only hint the final IDLE that reset only one cycle after
+        assert hist(7,7)(0) = 2360 and hist(7,7)(255) = 2301 -- /!\ it missmatch : only hint the final IDLE that reset only one cycle after
         report "mismatch at for hist(7,7)" severity error;
 
         -- Finished
