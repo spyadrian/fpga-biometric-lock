@@ -17,6 +17,7 @@ entity lbph_conv is
         start_i   : in std_logic;
         
         lbp_val_o : out lbp_value_t;
+        first_o   : out std_logic;
         last_o    : out std_logic;
         valid_o   : out std_logic
     );
@@ -72,7 +73,7 @@ architecture Behavioral of lbph_conv is
     
     signal count, x, y : integer;
     signal lbp_val : lbp_value_t;
-    signal in_border, mx_filled, last : std_logic;
+    signal in_border, mx_filled, last, first_tmp : std_logic;
     
     signal p0, p1, p2, p3, p4, p5, p6, p7, p8 : pixel_t;
 
@@ -186,6 +187,7 @@ begin
                     f1_wr_en <= '0';
                     f2_wr_en <= '0';
                     
+                    first_tmp <= '1';
                     count <= 0;
                     x <= 0;
                     y <= 0;
@@ -207,6 +209,12 @@ begin
                     p6 <= p7;
                     p7 <= p8;
                  -- p8 <= px_i;
+                    
+                    -- first --
+                    if valid_o = '1' and first_tmp = '1' then
+                    
+                        first_tmp <= '0';
+                    end if;
                     
                     -- count --
                     count <= count + 1;
@@ -244,6 +252,6 @@ begin
     last_o    <= last;
     valid_o   <= '1' when in_border = '0' and mx_filled = '1' else '0';
     lbp_val_o <= unsigned(p0) when in_border = '0' and mx_filled = '1' else (others => '0');
-
+    first_o <= '1' when valid_o = '1' and first_tmp = '1' else '0';
 
 end Behavioral;

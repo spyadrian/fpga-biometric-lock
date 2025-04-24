@@ -37,10 +37,11 @@ architecture tb of tb_lbph_conv is
             start_i   : in std_logic;
             
             lbp_val_o : out lbp_value_t;
+            first_o   : out std_logic;
             last_o    : out std_logic;
             valid_o   : out std_logic
         );
-
+    
     end component lbph_conv;
 
 
@@ -54,6 +55,7 @@ architecture tb of tb_lbph_conv is
     signal px          : pixel_t   := (others => '1');
     
     signal lbp_val_out : lbp_value_t;
+    signal first       : std_logic;
     signal last        : std_logic;
     signal valid       : std_logic;
 
@@ -67,6 +69,7 @@ begin
             px_i      => px,
             start_i   => start,
             lbp_val_o => lbp_val_out,
+            first_o   => first,
             last_o    => last,
             valid_o   => valid
         );
@@ -90,6 +93,12 @@ begin
 
             for y in 0 to IMG_HEIGHT-1 loop
                 for x in 0 to IMG_WIDTH-1 loop
+
+                    if first = '1' then
+
+                        assert y = 2 and x = 3
+                        report "mismatch first flag for : x = " & integer'image(x) & "; y = " & integer'image(y) severity error;
+                    end if;
 
                     if y mod 2 = 0 then
                         px <= (others => '1');
