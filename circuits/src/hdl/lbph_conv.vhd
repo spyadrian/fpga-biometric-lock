@@ -137,14 +137,14 @@ begin
         if rising_edge(clk_i) then
             if rst_i = '1' then
                 current_state <= IDLE;
-            elsif rising_edge(clk_i) then
+            else
                 current_state <= next_state;
             end if;
         end if;
     
     end process;
-     
-     
+
+
     proc_handler : process(current_state, start_i, last)
     begin
     
