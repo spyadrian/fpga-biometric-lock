@@ -33,14 +33,15 @@ architecture tb of tb_lbph_comp is
             rst_i    : in  std_logic;
     
             start_i  : in  std_logic;
-            hist1_i  : in  hist_t;
-            hist2_i  : in  hist_t;
+            hist1_i  : in  concat_hist_t;
+            hist2_i  : in  concat_hist_t;
     
             done_o   : out std_logic;
             result_o : out distance_t
         );
-    
+
     end component lbph_comp;
+
 
     ---------------------------------------------------------------------------------
     -- Signals
@@ -49,8 +50,10 @@ architecture tb of tb_lbph_comp is
     signal clk      : std_logic := '1';
     signal rst      : std_logic := '1';
     signal start    : std_logic := '0';
-    signal hist1    : hist_t := (others => (others => '0'));
-    signal hist2    : hist_t := (others => (others => '0'));
+
+    signal hist1    : concat_hist_t := (others => (others => (others => (others => '0'))));
+    signal hist2    : concat_hist_t := (others => (others => (others => (others => '0'))));
+
     signal done     : std_logic;
     signal result   : distance_t;
 
@@ -76,16 +79,23 @@ begin
 
     -- stimulus process --
     stim_proc : process
-        variable L : line;
+    
+        variable b1, b2   : bin_t;
     begin
         wait until rst = '0';
         wait for CLK_PERIOD;
 
-        -- Initialize histograms with test data
-        -- Let's use some arbitrary values for testing
-        for i in 0 to LBP_BINS - 1 loop
-            hist1(i) <= to_unsigned(i, hist1(i)'length);  -- 0, 1, 2, ..., 255
-            hist2(i) <= to_unsigned(255 - i, hist2(i)'length);  -- 255, 254, ..., 0
+        -- Fill histograms with known values: mirror patterns
+        for y in 0 to GRID_LEN_Y - 1 loop
+            for x in 0 to GRID_LEN_X - 1 loop
+                for i in 0 to LBP_BINS - 1 loop
+
+                    b1 := to_unsigned(i, 13);               -- 0 to 255
+                    b2 := to_unsigned(255 - i, 13);         -- 255 to 0
+                    hist1(y, x)(i) <= b1;
+                    hist2(y, x)(i) <= b2;
+                end loop;
+            end loop;
         end loop;
 
         -- Start computation
@@ -93,10 +103,13 @@ begin
         wait for CLK_PERIOD;
         start <= '0';
 
-        -- Wait and Check
+        -- Wait for done
         wait until done = '1';
-        assert result = x"0000555500"
-            report "Test failed! result_o = " & integer'image(to_integer(result))
+        wait for CLK_PERIOD;
+
+        -- Check result
+        assert result = to_unsigned(357908480, result'length)
+            report "Test failed! result = " & integer'image(to_integer(result)) & ", expected = 357908480"
             severity failure;
 
         -- Finished
