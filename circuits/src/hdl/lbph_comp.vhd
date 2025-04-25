@@ -115,10 +115,7 @@ begin
                     sum := (others => '0');
                     for i in 0 to LBP_BINS - 1 loop
                         sum := sum + squared_diff(hist1_reg(y_idx, x_idx)(i), hist2_reg(y_idx, x_idx)(i));
-
                     end loop;
-                    
-                    -- report "comp : sum at (" & integer'image(x_idx) & ", " & integer'image(y_idx) & ")   : " & integer'image(to_integer(sum));
                     
                     result_reg <= result_reg + sum;
                     
@@ -133,9 +130,6 @@ begin
                 when DONE =>
                     done_reg <= '1';
 
-                    -- need one more for (7, 7) !
-                    report "comp : hist1(7, 7)(128) : " & integer'image(to_integer(hist1_reg(7, 7)(128)));
-                    report "comp : distance         : " & integer'image(to_integer(result_o));
             end case;
             
         end if;
