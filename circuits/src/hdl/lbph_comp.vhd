@@ -39,9 +39,11 @@ architecture Behavioral of lbph_comp is
 
     signal current_state, next_state : state_t := IDLE;
     
-    signal x_idx, y_idx     : integer range 0 to GRID_LEN_X - 1 := 0;
-    signal result_reg       : distance_t := (others => '0');
-    signal done_reg         : std_logic := '0';
+    signal hist1_reg, hist2_reg     : concat_hist_t;
+    
+    signal x_idx, y_idx             : integer range 0 to GRID_LEN_X - 1 := 0;
+    signal result_reg               : distance_t := (others => '0');
+    signal done_reg                 : std_logic := '0';
 
 begin
 
@@ -100,17 +102,26 @@ begin
                     x_idx <= 0;
                     y_idx <= 0;
                     done_reg <= '0';
+                    hist1_reg <= hist1_i;
+                    hist2_reg <= hist2_i;
 
                 when RUNNING =>
+                
+                    -- save 
+                    hist1_reg <= hist1_reg;
+                    hist2_reg <= hist2_reg; 
                 
                     -- compute distance for this (y_idx, x_idx) histogram cell
                     sum := (others => '0');
                     for i in 0 to LBP_BINS - 1 loop
-                        sum := sum + squared_diff(hist1_i(y_idx, x_idx)(i), hist2_i(y_idx, x_idx)(i));
+                        sum := sum + squared_diff(hist1_reg(y_idx, x_idx)(i), hist2_reg(y_idx, x_idx)(i));
+
                     end loop;
                     
+                    -- report "comp : sum at (" & integer'image(x_idx) & ", " & integer'image(y_idx) & ")   : " & integer'image(to_integer(sum));
+                    
                     result_reg <= result_reg + sum;
-
+                    
                     -- next position
                     if x_idx = GRID_LEN_X - 1 then
                         x_idx <= 0;
@@ -122,6 +133,9 @@ begin
                 when DONE =>
                     done_reg <= '1';
 
+                    -- need one more for (7, 7) !
+                    report "comp : hist1(7, 7)(128) : " & integer'image(to_integer(hist1_reg(7, 7)(128)));
+                    report "comp : distance         : " & integer'image(to_integer(result_o));
             end case;
             
         end if;
