@@ -248,7 +248,7 @@ begin
     in_border <= '1' when x = 0 or y = 0 or x = IMG_WIDTH - 1 or y = IMG_HEIGHT - 1 else '0';
     mx_filled <= '1' when count > (2 * IMG_WIDTH + 1) else '0';
     
-    last      <= '1' when y = IMG_HEIGHT - 3 and x = IMG_WIDTH - 2 else '0';
+    last      <= '1' when y = IMG_HEIGHT - 2 and x = IMG_WIDTH - 2 else '0';
     last_o    <= last;
     valid_o   <= '1' when in_border = '0' and mx_filled = '1' else '0';
     lbp_val_o <= unsigned(p0) when in_border = '0' and mx_filled = '1' else (others => '0');
