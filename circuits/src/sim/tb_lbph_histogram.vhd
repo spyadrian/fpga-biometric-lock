@@ -124,7 +124,7 @@ begin
         assert hist(1,1)(0) = 2400 and hist(1,1)(255) = 2400
         report "mismatch at for hist(1,1)" severity error;
 
-        assert hist(7,7)(0) = 2360 and hist(7,7)(255) = 2301 -- /!\ it missmatch : only hint the final IDLE that reset only one cycle after
+        assert hist(7,7)(0) = 2360 and hist(7,7)(255) = 2301
         report "mismatch at for hist(7,7)" severity error;
 
         -- Finished
