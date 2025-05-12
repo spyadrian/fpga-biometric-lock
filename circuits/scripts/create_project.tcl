@@ -140,7 +140,15 @@ set ip_file_list [findFiles $ip_src_dir *.xci]
 if {$ip_file_list != ""} {
     add_files -norecurse $ip_file_list
     generate_target all [get_files -of_objects [get_filesets sources_1] -filter {FILE_TYPE == "IP"}]
-    set_property generate_synth_checkpoint true [get_files $ip_file_list]
+
+    foreach ip_file $ip_file_list {
+        if {[get_property IS_LOCKED [get_ips -all]] == 0} {
+            generate_target all [get_files $ip_file]
+        } else {
+            print_status "IP $ip_file is locked and will not be generated" "WARNING"
+        }
+    }
+
     print_status "Added IP files and generated targets" "OK"
 } else {
     print_status "No IP files to be added" "WARNING"
