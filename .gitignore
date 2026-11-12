@@ -16,3 +16,6 @@ programs/*.o
 programs/euclidean_distance
 programs/transform
 programs/lbph
+
+.cache/
+compile_commands.json
