@@ -8,7 +8,7 @@
 ##################################################################################
 #
 # Company: HEPIA // HES-SO
-# Author: Laurent Gantel <laurent.gantel@hesge.ch>
+# Author: Laurent Gantel
 #
 # Project Name: tb_files_uart
 # Target Device: digilentinc.com:nexys_video:part0:1.2 xc7a200tsbg484-1

@@ -1,9 +1,3 @@
-# --- report ---
-report/report.pdf
-
-# --- specification ---
-specification/specification.pdf
-
 # --- circuits ---
 circuits/fpga-biometric-lock
 circuits/.Xil
@@ -19,3 +13,4 @@ programs/lbph
 
 .cache/
 compile_commands.json
+.clangd

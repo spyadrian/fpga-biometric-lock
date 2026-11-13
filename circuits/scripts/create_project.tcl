@@ -8,7 +8,7 @@
 ##################################################################################
 #
 # Company: HEPIA // HES-SO
-# Author: Spycher Adrian based on Laurent Gantel <laurent.gantel@hesge.ch>
+# Author: Spycher Adrian based on Laurent Gantel
 #
 # Project Name: fpga-biometric-lock
 # Target Device: digilentinc.com:nexys_video:part0:1.2 xc7a200tsbg484-1
